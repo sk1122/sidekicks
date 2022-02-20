@@ -24,7 +24,7 @@ export default function Home() {
       </div>
 
       <div className='flex-end'>
-        <h1>TOP PERFORMING KICKS | KICKS DROPPED THIS WEEK | KICKS DROPPED LAST WEEK</h1>
+        <h1 className='text-white font-inter font-semibold text-xl lowercase cursor-pointer'>{`explore kicks -->`}</h1>
       </div>
     </div>
   )
