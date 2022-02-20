@@ -97,7 +97,7 @@ const Navbar = () => {
                 <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
             </div>
-            <div onClick={disconnect} className={(logoutModal ? '' : 'hidden ') + ' absolute flex justify-center items-center w-40 z-50 bg-white text-black rounded-md p-3'}>
+            <div onClick={disconnect} className={(logoutModal ? '' : 'hidden ') + ' absolute flex justify-center items-center w-40 z-50 bg-white text-black rounded-md p-3 cursor-pointer'}>
               Logout
             </div>
           </div>
@@ -110,7 +110,7 @@ const Navbar = () => {
           {connectData.connectors.map((connector) => (
             <button
               key={connector.id}
-              onClick={() => connect(connector)}
+              onClick={() => {connect(connector); setIsOpen(false)}}
               className="p-3 bg-black m-3 flex justify-center items-center space-x-3 w-64 rounded-xl"
             >
               {connector.name.toLowerCase() === 'metamask' && <img className="w-10" src="/MetaMask_Fox.svg" />}

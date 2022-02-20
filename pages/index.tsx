@@ -4,6 +4,7 @@ import Home from '../components/home/home'
 import TopKick from '../components/home/topkick'
 import ThisKick from '../components/home/thisweek'
 import HowWorks from '../components/home/howworks'
+import Footer from '../components/Footer'
 
 export default function Index() {
   return (
@@ -22,6 +23,7 @@ export default function Index() {
       <TopKick></TopKick>
       <ThisKick></ThisKick>
       <HowWorks></HowWorks>
+      <Footer></Footer>
     </div>
   )
 }
