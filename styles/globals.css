@@ -5,10 +5,11 @@
 .shadow-inner-circle { box-shadow: inset 0 2px 20px 0 #fff; }
 
 .scroll-body {
-	scroll-snap-type: y mandatory;
-	overflow-y: scroll;
+	scroll-snap-type: mandatory;
+	scroll-snap-points-y: repeat(80vh);
+	scroll-snap-type: y mandatory;  
 }
 
 .scroll-snap {
-	scroll-snap-align: start;
+	scroll-snap-align: center;
 }

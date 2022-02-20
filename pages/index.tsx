@@ -9,7 +9,7 @@ export default function Index() {
   return (
     <div className="font-inter flex min-h-screen flex-col items-center justify-start py-2 bg-black snap-scroll">
       <Head>
-        <title>Create Next App</title>
+        <title>sidekicks</title>
         <link rel="icon" href="/favicon.ico" />
         <link href="http://fonts.cdnfonts.com/css/clash-display" rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
