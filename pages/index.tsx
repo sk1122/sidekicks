@@ -1,10 +1,13 @@
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Home from '../components/home/home'
+import TopKick from '../components/home/topkick'
+import ThisKick from '../components/home/thisweek'
+import HowWorks from '../components/home/howworks'
 
 export default function Index() {
   return (
-    <div className="font-inter flex min-h-screen flex-col items-center justify-start py-2 bg-gradient-to-br from-black via-grey-500 to-white">
+    <div className="font-inter flex min-h-screen flex-col items-center justify-start py-2 bg-black snap-scroll">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -16,6 +19,9 @@ export default function Index() {
 
       <Navbar></Navbar>
       <Home></Home>
+      <TopKick></TopKick>
+      <ThisKick></ThisKick>
+      <HowWorks></HowWorks>
     </div>
   )
 }
