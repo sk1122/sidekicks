@@ -4,6 +4,7 @@ import { ImageGallary } from '../components/productpage/imagegallary'
 import { Description } from '../components/productpage/description'
 import { CryptoKick } from '../components/CryptoKick'
 import Head from 'next/head'
+import Footer from '../components/Footer'
 import { Team } from '../components/teams'
 const ProductPage = () => {
   return (
@@ -26,20 +27,25 @@ const ProductPage = () => {
           rel="stylesheet"
         />
       </Head>
-      <div className="h-[100%] w-[100%] font-inter">
-        <div className=" m-auto h-full w-[95%] ">
-          <div>
-            <ProductInfo />
-            <div className="flex justify-center">
-              <ImageGallary />
-              <div className=" sticky top-4 ml-[20px] flex flex-col items-center justify-between">
-                <Description />
-                <CryptoKick />
-                <Team />
+      <div className="bg-black">
+        <Navbar />
+        <div className="h-[100%] w-[100%] bg-black font-inter">
+          <div className=" m-auto h-full w-[95%] ">
+            <div>
+              <ProductInfo />
+              <div className="flex justify-center">
+                <ImageGallary />
+                <div className=" sticky top-4 ml-[20px] flex flex-col items-center justify-between">
+                  <Description />
+                  <CryptoKick />
+                  <Team />
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <Footer />
       </div>
     </>
   )

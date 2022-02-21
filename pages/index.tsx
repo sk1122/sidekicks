@@ -38,7 +38,6 @@ export default function Index() {
         />
       </Head>
 
-      {/* <ProductPage /> */}
       <Home></Home>
       <TopKick></TopKick>
       <ThisKick></ThisKick>
