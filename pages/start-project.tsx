@@ -1,22 +1,67 @@
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-// import { v4 as uuidv4 } from 'uuid'
 
 type Props = {}
 
 const startProject = (props: Props) => {
-  // section #1 states
-  // const [projectImg, setProjectImg] = useState()
-  // const [projectTitle, setProjectTitle] = useState('')
-  // const [projectSummary, setProjectSummary] = useState('')
+  const initialValues = {
+    projectTitle: '',
+    projectSummary: '',
+    projectDescription: '',
+    ownerName: '',
+    ownerTwitter: '',
+    memberName: '',
+    memberTwitter: '',
+    member2Name: '',
+    member2Twitter: '',
+  }
 
-  // // section #2 states
-  // const [multipleProjectImages, setMultipleProjectImages] = useState([])
-  // const [projectDescription, setProjectDescription] = useState('')
+  const [projectImg, setProjectImg] = useState()
+  const [projectMultipleImages, setProjectMultipleImages] = useState([])
 
-  const { register, handleSubmit, watch } = useForm()
+  const [formValues, setFormValues] = useState(initialValues)
 
-  const onSubmit = (data) => console.log(data)
+  const handleChange = (e: any) => {
+    const { name, value } = e.target
+    setFormValues({ ...formValues, [name]: value })
+    console.log(formValues)
+  }
+
+  // @ts-ignore
+  const handleImage = (file) => {
+    const reader = new FileReader()
+    const url = reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      // @ts-ignore
+      setProjectImg(reader.result)
+    }
+  }
+  //@ts-ignore
+  const FiletoBase64 = (file) => {
+    const reader = new FileReader()
+    const url = reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      //@ts-ignore
+      setProjectMultipleImages((projectMultipleImages) => [
+        ...projectMultipleImages,
+        reader.result,
+      ])
+    }
+  }
+  //@ts-ignore
+  const handleMultipleImages = (files) => {
+    console.log(files)
+    Object.keys(files).map((key) => FiletoBase64(files[key]))
+  }
+
+  useEffect(() => {
+    console.log(projectImg)
+  }, [projectImg])
+
+  useEffect(() => {
+    // setFormValues({ ...projectMultipleImages, ...formValues })
+    // console.log(formValues)
+    console.log(projectMultipleImages)
+  }, [projectMultipleImages])
 
   const [newMember, setNewMember] = useState(false)
 
@@ -24,33 +69,27 @@ const startProject = (props: Props) => {
     e.preventDefault()
     setNewMember(true)
   }
-  // converting images to base64 and storing the hash in localstorage
-  const manageImages = (file) => {
-    const reader = new FileReader()
-    const url = reader.readAsDataURL(file)
-    reader.onloadend = () => {
-      localStorage.setItem(uuidv4(), reader.result)
-      setProjectImage(reader.result)
-    }
-  }
 
-  // looping on multiple images and passing them on to the manageImages function
-  const multipleImages = (files) => {
-    Object.keys(files).map((key) => manageImages(files[key]))
+  const handleFormSubmit = (e: any) => {
+    e.preventDefault()
   }
 
   return (
-    <div className="flex h-fit bg-black text-white">
-      <pre>{JSON.stringify(watch(), null, 2)}</pre>
-      <form className="mx-16 my-20 w-full">
-        <div className="flex  flex-col items-center justify-center space-x-20 lg:flex-row lg:justify-start">
+    <div className="flex h-fit items-center justify-center bg-black text-white">
+      <form className="mx-16 my-20 w-full" onSubmit={handleFormSubmit}>
+        <div className="flex  flex-col items-center justify-center lg:flex-row lg:justify-start lg:space-x-20">
           {/* project icon input */}
           <div className="relative flex h-60 w-60 items-center justify-center rounded-full border-2 border-dotted border-gray-700">
             <input
               className="absolute z-50 m-0 h-full w-full cursor-pointer rounded-full p-0 opacity-0 outline-none"
               type="file"
               accept="image/*"
-              {...register('projectImg', { required: true })}
+              name="projectImg"
+              // @ts-ignore
+              value={projectImg}
+              // @ts-ignore
+              onChange={(e) => handleImage(e.target.files[0])}
+              required
             />
 
             <div className="z-0 flex flex-col items-center justify-center py-20 text-center">
@@ -74,36 +113,46 @@ const startProject = (props: Props) => {
             </div>
           </div>
           {/* project name & summary */}
-          <div>
+          <div className="flex w-5/6 flex-col items-center justify-center  md:w-3/5 lg:w-1/4">
             <input
               type="text"
               placeholder="Project Name"
-              className="mt-8 w-full bg-transparent text-xl outline-none"
-              {...register('projectTitle', { required: true })}
+              className="mt-8 w-full bg-transparent text-center text-xl outline-none lg:text-left"
+              required
+              value={formValues.projectTitle}
+              name="projectTitle"
+              onChange={handleChange}
             />
 
             <textarea
               id="summary"
               rows={3}
-              className="mt-10 w-full bg-transparent outline-none"
-              placeholder="Short summary - Write a clear, brief title and subtitle to help people quickly understand your project. Both will appear on your project and pre-launch pages.
-"
-              {...register('projectSummary', { required: true })}
+              className="mt-10 w-full overflow-hidden bg-transparent text-center outline-none lg:text-left"
+              placeholder="Short summary - Write a clear, brief title and subtitle to help people quickly understand your project. Both will appear on your project and pre-launch pages."
+              name="projectSummary"
+              required
+              onChange={handleChange}
+              value={formValues.projectSummary}
             ></textarea>
           </div>
         </div>
         {/* section #2 */}
-        <div className="my-12 flex h-96 w-full">
+        <div className="mt-20 flex h-[500px] w-full flex-col items-center lg:h-96 lg:flex-row lg:items-start lg:space-x-2">
           {/* left */}
-          <div className="relative flex w-3/5 items-center justify-center rounded border-2 border-dotted border-gray-700">
+          <div className="relative flex w-3/4 items-center justify-center rounded border-2 border-dotted border-gray-700 md:w-4/5 lg:h-full lg:w-3/5">
             <input
-              className="absolute z-50 m-0 h-full w-full cursor-pointer rounded bg-green-100 p-0 opacity-0 outline-none"
+              className="absolute z-50 m-0 h-full w-full cursor-pointer rounded-full p-0 opacity-0 outline-none"
               type="file"
               accept="image/*"
-              multiple
-              {...register('projectMultipleImages', { required: true })}
+              name="projectImg"
+              // @ts-ignore
+              value={projectImg}
+              // @ts-ignore
+              onChange={(e) => handleImage(e.target.files[0])}
+              required
             />
-            <div className="z-0 flex flex-col items-center justify-center space-y-1 text-center">
+
+            <div className="z-0 flex flex-col items-center justify-center py-20 text-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -124,22 +173,31 @@ const startProject = (props: Props) => {
             </div>
           </div>
           {/* right */}
-          <div className="w-2/5"></div>
+          <div className="md:4/5 mt-8 h-full w-3/4 rounded border-2 border-dotted border-gray-700 lg:mt-0 lg:w-2/5">
+            <textarea
+              className="h-full w-full bg-transparent py-2 px-2 outline-none"
+              name="projectDescription"
+              placeholder="Add Description"
+              value={formValues.projectDescription}
+              onChange={handleChange}
+            ></textarea>
+          </div>
         </div>
-
         {/* section #3 */}
-        <div className="flex">
+        <div className="mt-20 flex flex-col items-center lg:flex-row lg:items-start">
           {/* left */}
-          <div className="w-full space-y-3">
-            <h2 className="text-xl text-gray-200">Team</h2>
-            <p className="w-3/5 text-sm text-gray-400">
+          <div className="flex w-full flex-col items-center space-y-3 lg:items-start">
+            <h2 className="text-center text-xl text-gray-200 lg:text-left">
+              Team
+            </h2>
+            <p className="w-4/5 text-center text-sm text-gray-400 lg:w-3/5 lg:text-left">
               If you're working with others, you can grant them permission to
               edit this project, communicate with backers, and coordinate reward
               fulfillment
             </p>
           </div>
           {/* right */}
-          <div className="w-full">
+          <div className="mt-10 w-full lg:mt-0">
             <div className="flex w-full space-x-4">
               <div className="flex w-1/2 flex-col space-y-1">
                 <label htmlFor="twitter" className="text-gray-200">
@@ -147,7 +205,9 @@ const startProject = (props: Props) => {
                 </label>
                 <input
                   type="text"
-                  {...register('owner_name', { required: true })}
+                  name="ownerName"
+                  onChange={handleChange}
+                  value={formValues.ownerName}
                   className="rounded-lg border border-2 border-gray-500 bg-transparent py-2 px-2 outline-none"
                 />
               </div>
@@ -157,7 +217,9 @@ const startProject = (props: Props) => {
                 </label>
                 <input
                   type="text"
-                  {...register('owner_twitter', { required: true })}
+                  name="ownerTwitter"
+                  onChange={handleChange}
+                  value={formValues.ownerTwitter}
                   className="rounded-lg border border-2 border-gray-500 bg-transparent py-2 px-2 outline-none"
                 />
               </div>
@@ -169,7 +231,9 @@ const startProject = (props: Props) => {
                 </label>
                 <input
                   type="text"
-                  {...register('member_name')}
+                  name="memberName"
+                  value={formValues.memberName}
+                  onChange={handleChange}
                   className="rounded-lg border border-2 border-gray-500 bg-transparent py-2 px-2 outline-none"
                 />
               </div>
@@ -179,7 +243,9 @@ const startProject = (props: Props) => {
                 </label>
                 <input
                   type="text"
-                  {...register('member_twitter')}
+                  name="memberTwitter"
+                  value={formValues.memberTwitter}
+                  onChange={handleChange}
                   className="rounded-lg border border-2 border-gray-500 bg-transparent py-2 px-2 outline-none"
                 />
               </div>
@@ -194,7 +260,9 @@ const startProject = (props: Props) => {
                   </label>
                   <input
                     type="text"
-                    {...register('member2_name')}
+                    name="member2Name"
+                    value={formValues.member2Name}
+                    onChange={handleChange}
                     className="rounded-lg border border-2 border-gray-500 bg-transparent py-2 px-2 outline-none"
                   />
                 </div>
@@ -204,7 +272,9 @@ const startProject = (props: Props) => {
                   </label>
                   <input
                     type="text"
-                    {...register('member2_twitter')}
+                    name="member2Twitter"
+                    value={formValues.member2Twitter}
+                    onChange={handleChange}
                     className="rounded-lg border border-2 border-gray-500 bg-transparent py-2 px-2 outline-none"
                   />
                 </div>

@@ -37,7 +37,7 @@ const Navbar = () => {
               link: '/about',
             },
           ].map((item) => (
-            <Link href={item.link}>
+            <Link href={item.link} key={item.name}>
               <a className="cursor-pointer px-2 py-1 text-sm">{item.name}</a>
             </Link>
           ))}
