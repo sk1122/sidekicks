@@ -12,7 +12,7 @@ const Navbar = () => {
   const [logoutModal, setLogoutModal] = useState(false)
 
   return (
-    <nav className="font-poppins bg-brand-dark flex w-full items-center justify-between px-16 py-6 text-white">
+    <nav className="flex w-full items-center justify-between bg-black px-16 py-6 text-white">
       <Link href="/">
         <a className="text-2xl font-bold">sidekicks</a>
       </Link>
@@ -22,7 +22,7 @@ const Navbar = () => {
             // test route
             {
               name: 'Start Project',
-              link: '/startProject',
+              link: '/start-project',
             },
             {
               name: 'Fund Project',

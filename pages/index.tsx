@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Navbar from '../components/Navbar'
 import Home from '../components/home/home'
 import TopKick from '../components/home/topkick'
 import ThisKick from '../components/home/thisweek'
@@ -38,7 +37,6 @@ export default function Index() {
           rel="stylesheet"
         />
       </Head>
-      <Navbar></Navbar>
 
       {/* <ProductPage /> */}
       <Home></Home>
