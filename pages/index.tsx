@@ -8,6 +8,7 @@ import Footer from '../components/Footer'
 import { useAccount } from 'wagmi'
 import { useEffect } from 'react'
 import { useAccountContext } from './_context'
+import ProductPage from './product'
 
 export default function Index() {
   const { setAccount } = useAccountContext()
@@ -18,17 +19,28 @@ export default function Index() {
   }, [data])
 
   return (
-    <div className="font-inter flex min-h-screen flex-col items-center justify-start py-2 bg-black snap-scroll">
+    <div className="snap-scroll flex min-h-screen flex-col items-center justify-start bg-black py-2 font-inter">
       <Head>
         <title>sidekicks</title>
         <link rel="icon" href="/favicon.ico" />
-        <link href="http://fonts.cdnfonts.com/css/clash-display" rel="stylesheet" />
+        <link
+          href="http://fonts.cdnfonts.com/css/clash-display"
+          rel="stylesheet"
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+          rel="stylesheet"
+        />
       </Head>
-
       <Navbar></Navbar>
+
+      {/* <ProductPage /> */}
       <Home></Home>
       <TopKick></TopKick>
       <ThisKick></ThisKick>
