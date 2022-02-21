@@ -26,7 +26,7 @@ const ProductPage = () => {
           rel="stylesheet"
         />
       </Head>
-      <div className="h-[100%] w-[100%] font-inter">
+      <div className="h-[100%] w-[100%] bg-black font-inter">
         <div className=" m-auto h-full w-[95%] ">
           <div>
             <ProductInfo />
