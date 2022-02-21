@@ -40,11 +40,11 @@ export default function Index() {
       </Head>
       <Navbar></Navbar>
 
-      {/* <Home></Home> */}
-      {/* <TopKick></TopKick>
+      <Home></Home>
+      <TopKick></TopKick>
       <ThisKick></ThisKick>
       <HowWorks></HowWorks>
-      <Footer></Footer> */}
+      <Footer></Footer>
     </div>
   )
 }
