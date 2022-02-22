@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   
   useEffect(() => {
     connectContract()
-
+    console.log('Connected')
     contract.on('projectRegistered', async (owner: string, projectID: any, databaseID: any) => {
       console.log(owner, projectID.toNumber(), databaseID.toNumber())
 
@@ -124,34 +124,45 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   /// @dev: Start a Project using interface Project
   const startProject = async (projectData: Project) => {
-    var id;
+    var id, imageName;
     try {
       connectContract()
 
-      const { data, error } = await supabase.from('Projects').insert([projectData])
+      const { thumbnail, ...project } = projectData
+      
+      const { data, error } = await supabase.from('Projects').insert([project])
       
       if(!data || error || data.length == 0) {
         return false
       }
+
+      console.log(thumbnail, projectData, project)
+      await uploadFile(thumbnail as File, data[0].id)
       
       var id = data[0].id
-      let project = await contract.startProject(data[0].id)
-      await project.wait()
+      imageName = thumbnail?.name
+      let projectId = await contract.startProject(data[0].id)
+      await projectId.wait()
       console.log(project)
     } catch (e) {
       const { data, error } = await supabase
         .from('Projects')
         .delete()
         .match({ id: id })
+      const { data: image, error: Imageerror } = await supabase
+        .storage
+        .from('projects')
+        .remove([`${id}/${imageName}`])
+      console.log(image, Imageerror)
       console.log(e)
     } 
   }
 
-  const uploadFile = async (file: File) => {
+  const uploadFile = async (file: File, projectId: number) => {
     const { data, error } = await supabase
       .storage
       .from('projects')
-      .upload(file.name, file, {
+      .upload(`${projectId}/${file.name}`, file, {
         cacheControl: '3600',
         upsert: false
       })
