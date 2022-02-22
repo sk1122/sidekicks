@@ -6,9 +6,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'clash': ['"Clash Display"', 'sans-serif'],
-        'inter': ['"Inter"', 'sans-serif']
-      }
+        clash: ['"Clash Display"', 'sans-serif'],
+        inter: ['"DM Sans"', 'sans-serif'],
+      },
     },
   },
   plugins: [],
