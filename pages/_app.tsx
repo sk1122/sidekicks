@@ -147,6 +147,24 @@ function MyApp({ Component, pageProps }: AppProps) {
     } 
   }
 
+  const uploadFile = async (file: File) => {
+    const { data, error } = await supabase
+      .storage
+      .from('projects')
+      .upload(file.name, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    const { data: dataE, error: errorE } = await supabase
+      .storage
+      .listBuckets()
+    console.log(dataE)
+
+    if(error) console.log(error, "Error")
+    console.log(data)
+  }
+
   /// @dev: Example
   // useEffect(() => {
   //   (async () => {
@@ -173,7 +191,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     myContributions,
     myProjects,
     contributeProject,
-    startProject
+    startProject,
+    uploadFile
   }
 
   useEffect(() => {

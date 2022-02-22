@@ -10,6 +10,7 @@ export interface Context {
   myProjects: Function
   contributeProject: Function
   startProject: Function
+  uploadFile: Function
 }
 
 export const AppContext = createContext<Context>({} as Context);
