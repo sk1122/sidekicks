@@ -12,17 +12,17 @@ const Navbar = () => {
   const [logoutModal, setLogoutModal] = useState(false)
 
   return (
-    <nav className="font-poppins bg-brand-dark flex w-full items-center justify-between px-16 py-6 text-white">
+    <nav className="flex w-full items-center justify-between bg-black px-16 py-6 text-white">
       <Link href="/">
-        <a className="text-2xl font-bold">sidekicks</a>
+        <a className="font-clash text-2xl font-bold">sidekicks</a>
       </Link>
-      <div className="">
-        <ul className="ml-48 flex space-x-5">
+      <div className="hidden md:block">
+        <ul className="flex space-x-5">
           {[
             // test route
             {
               name: 'Start Project',
-              link: '/startProject',
+              link: '/startproject',
             },
             {
               name: 'Fund Project',
@@ -37,7 +37,7 @@ const Navbar = () => {
               link: '/about',
             },
           ].map((item) => (
-            <Link href={item.link}>
+            <Link href={item.link} key={item.name}>
               <a className="cursor-pointer px-2 py-1 text-sm">{item.name}</a>
             </Link>
           ))}
