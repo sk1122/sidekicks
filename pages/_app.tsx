@@ -72,7 +72,24 @@ function MyApp({ Component, pageProps }: AppProps) {
     try {
       connectContract()
       let projects = await contract.getAllProjects()
-      return projects
+      var projectsData: Array<any> = [];
+      console.log(projects)
+      let i = -1;
+      const d = projects.map(async (value: any) => {
+        i++;
+        const { data, error } = await supabase.from('Projects').select('*').eq('projectId', value.projectId.toString())
+        if(!data || error || data.length == 0) {
+          console.log('1')
+          return
+        }
+        if(data) {
+          projectsData.push([data[0], projects[i]])
+        }
+      })
+
+      await Promise.all(d)
+
+      return projectsData
     } catch (e) {
       console.log(e)
     }
@@ -83,11 +100,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     try {
       connectContract()
       let project = await contract.getProject(projectId)
-      return project
+      const { data, error } = await supabase.from('Projects').select('*').eq('projectId', projectId.toString())
+      if(!data || error || data.length == 0) {
+        return false
+      }
+      return data[0]
     } catch(e) {
       console.log(e)
     }
   }
+
+  useEffect(() => {
+    (async() => {
+      console.log(await getAllProjects())
+    })()
+  }, [])
 
   /// @dev: Get ALL Contributions for logged user for a given project
   const myContributions = async (projectId: number) => {
@@ -104,8 +131,23 @@ function MyApp({ Component, pageProps }: AppProps) {
   const myProjects = async () => {
     try {
       connectContract()
-      let projects = await contract.myProjects()
-      return projects
+      let projects: [] = await contract.myProjects()
+      var projectsData: Array<any> = [];
+      
+      const d = projects.map(async (value: any) => {
+        const { data, error } = await supabase.from('Projects').select('*').eq('projectId', value.toString())
+        if(!data || error || data.length == 0) {
+          console.log('1')
+          return
+        }
+        if(data) {
+          projectsData.push(data[0])
+        }
+      })
+
+      await Promise.all(d)
+
+      return projectsData
     } catch(e) {
       console.log(e)
     }
