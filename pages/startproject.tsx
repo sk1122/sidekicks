@@ -6,65 +6,68 @@ type Props = {}
 
 const createProject = (props: Props) => {
   const { startProject } = useAccountContext()
-  
-  let makers: Maker[] = [{name: 'fsa', twitter: ''}, {name: '', twitter: ''}, {name: '', twitter: ''}]
+
+  let makers: Maker[] = [
+    { name: '', twitter: '' },
+    { name: '', twitter: '' },
+    { name: '', twitter: '' },
+  ]
+
   const [maker, setMaker] = useState(makers)
 
   const initialValues: Project = {
     title: '',
     tagline: '',
     description: '',
-	makers: maker,
-	wallet_id: '',
-	category: '',
-	images: [],
-	thumbnail: null,
-	demo_video: ''
+    makers: maker,
+    wallet_id: '',
+    category: '',
+    images: [],
+    thumbnail: null,
+    demo_video: '',
   }
 
   const [projectImg, setProjectImg] = useState<File>()
   const [projectImage, setProjectImage] = useState<string>('')
   const [projectMultipleImages, setProjectMultipleImages] = useState<File[]>([])
+  const [projectMultipleImagesUrls, setProjectMultipleImagesUrls] = useState<
+    string[]
+  >([])
 
   const [formValues, setFormValues] = useState(initialValues)
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
-	if(name.startsWith('makers')) {
-		type or = "name" | "twitter"
-		const arr = name.split('-')
-		console.log(makers[Number(arr[1])][arr[2] as or], value)
-		let makeR = maker
-		makeR[Number(arr[1])][arr[2] as or] = value
-		setMaker(makeR)
-		setFormValues({ ...formValues, makers: makeR})
-	} else {
-		setFormValues({ ...formValues, [name]: value })
-	}
+    if (name.startsWith('makers')) {
+      type or = 'name' | 'twitter'
+      const arr = name.split('-')
+      console.log(makers[Number(arr[1])][arr[2] as or], value)
+      let makeR = maker
+      makeR[Number(arr[1])][arr[2] as or] = value
+      setMaker(makeR)
+      setFormValues({ ...formValues, makers: makeR })
+    } else {
+      setFormValues({ ...formValues, [name]: value })
+    }
     console.log(formValues)
   }
 
   // @ts-ignore
   const handleImage = (file) => {
     setProjectImg(file)
-	setProjectImage(URL.createObjectURL(file))
+    setProjectImage(URL.createObjectURL(file))
   }
-  //@ts-ignore
-  const FiletoBase64 = (file) => {
-    const reader = new FileReader()
-    const url = reader.readAsDataURL(file)
-    reader.onloadend = () => {
-      //@ts-ignore
-      setProjectMultipleImages((projectMultipleImages) => [
-        ...projectMultipleImages,
-        reader.result,
-      ])
-    }
-  }
+
   //@ts-ignore
   const handleMultipleImages = (files) => {
-    console.log(files)
-    Object.keys(files).map((key) => FiletoBase64(files[key]))
+    let filesArray: File[] = []
+    let stringMultipleImages: string[] = []
+    Object.keys(files).map((key) => {
+      filesArray.push(files[key])
+      stringMultipleImages.push(URL.createObjectURL(files[key]))
+    })
+    setProjectMultipleImages(filesArray)
+    setProjectMultipleImagesUrls(stringMultipleImages)
   }
 
   useEffect(() => {
@@ -72,10 +75,12 @@ const createProject = (props: Props) => {
   }, [projectImg])
 
   useEffect(() => {
-    // setFormValues({ ...projectMultipleImages, ...formValues })
-    // console.log(formValues)
     console.log(projectMultipleImages)
   }, [projectMultipleImages])
+
+  useEffect(() => {
+    console.log(projectMultipleImagesUrls)
+  }, [projectMultipleImagesUrls])
 
   const [newMember, setNewMember] = useState(false)
 
@@ -86,22 +91,27 @@ const createProject = (props: Props) => {
 
   const handleFormSubmit = (e: any) => {
     e.preventDefault()
-	const data: Project = {
-		...formValues,
-		thumbnail: projectImg as File,
-		images: [projectImg] as File[]
-	}
+    const data: Project = {
+      ...formValues,
+      thumbnail: projectImg as File,
+      images: projectMultipleImages as File[],
+    }
 
-	startProject(data)
+    startProject(data)
   }
 
   return (
-    <div className="flex h-fit items-center justify-center bg-black text-white">
+    <div className="flex h-fit items-center justify-center bg-black font-inter text-white">
       <form className="mx-16 my-20 w-full" onSubmit={handleFormSubmit}>
         <div className="flex  flex-col items-center justify-center lg:flex-row lg:justify-start lg:space-x-20">
           {/* project icon input */}
           <div className="relative flex h-60 w-60 items-center justify-center rounded-full border-2 border-dotted border-gray-700">
-			{projectImage !== '' && <img src={projectImage} className='select-none absolute z-50 m-0 h-full w-full cursor-pointer rounded-full p-0 outline-none' />}
+            {projectImage !== '' && (
+              <img
+                src={projectImage}
+                className="absolute z-50 m-0 h-full w-full cursor-pointer select-none rounded-full p-0 outline-none"
+              />
+            )}
             <input
               className="absolute z-50 m-0 h-full w-full cursor-pointer rounded-full p-0 opacity-0 outline-none"
               type="file"
@@ -112,7 +122,6 @@ const createProject = (props: Props) => {
               // @ts-ignore
               onChange={(e) => handleImage(e.target.files[0])}
             />
-
 
             <div className="z-0 flex flex-col items-center justify-center py-20 text-center">
               <svg
@@ -139,13 +148,12 @@ const createProject = (props: Props) => {
             <input
               type="text"
               placeholder="Project Name"
-              className="mt-8 w-full bg-transparent text-center text-xl outline-none lg:text-left"
+              className="mt-8 w-full bg-transparent text-center font-clash text-xl outline-none lg:text-left"
               required
               value={formValues.title}
               name="title"
               onChange={handleChange}
             />
-
             <textarea
               id="summary"
               rows={3}
@@ -158,49 +166,71 @@ const createProject = (props: Props) => {
             ></textarea>
           </div>
         </div>
-        {/* section #2 */}
-        <div className="mt-20 flex h-[500px] w-full flex-col items-center lg:h-96 lg:flex-row lg:items-start lg:space-x-2">
-          {/* left */}
-          <div className="relative flex w-3/4 items-center justify-center rounded border-2 border-dotted border-gray-700 md:w-4/5 lg:h-full lg:w-3/5">
-            <input
-              className="absolute z-50 m-0 h-full w-full cursor-pointer rounded-full p-0 opacity-0 outline-none"
-              type="file"
-              accept="image/*"
-              name="projectImg"
-              // @ts-ignore
-              value={''}
-              // @ts-ignore
-              onChange={(e) => handleImage(e.target.files[0])}
-            />
 
-            <div className="z-0 flex flex-col items-center justify-center py-20 text-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-                aria-hidden="true"
-                role="img"
-                className="opacity-50"
-                width="32"
-                height="32"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M8.5 13.498l2.5 3.006l3.5-4.506l4.5 6H5m16 1v-14a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-              <p className="select-none text-xs opacity-50">Add Icon</p>
-            </div>
+        {/* section #2 */}
+        <div className="mt-20 flex h-[500px] flex-col items-center justify-center space-y-10 lg:flex-row lg:space-y-0 lg:space-x-4">
+          {/* left */}
+          <div className="relative flex h-3/5 w-full items-center justify-center border-2 border-dotted border-gray-700 lg:h-full">
+            {projectMultipleImagesUrls.length !== 0 ? (
+              <div className="flex flex-wrap items-center justify-center">
+                {projectMultipleImagesUrls.map((singleImg) => (
+                  <img src={singleImg} className="m-2 h-24 w-36" />
+                ))}
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  name="projectImg"
+                  // @ts-ignore
+                  value={''}
+                  // @ts-ignore
+                  onChange={(e) => handleMultipleImages(e.target.files)}
+                  className="absolute z-50 h-full w-full cursor-pointer rounded-full p-0 opacity-0 outline-none"
+                />
+              </div>
+            ) : (
+              <>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  name="projectImg"
+                  // @ts-ignore
+                  value={''}
+                  // @ts-ignore
+                  onChange={(e) => handleMultipleImages(e.target.files)}
+                  className="absolute z-50 h-full w-full cursor-pointer rounded-full p-0 opacity-0 outline-none"
+                />
+                <div className="z-0 flex flex-col items-center justify-center py-20 text-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    aria-hidden="true"
+                    role="img"
+                    className="opacity-50"
+                    width="32"
+                    height="32"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M8.5 13.498l2.5 3.006l3.5-4.506l4.5 6H5m16 1v-14a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"
+                      fill="currentColor"
+                    ></path>
+                  </svg>
+                  <p className="select-none text-xs opacity-50">Add Icon</p>
+                </div>
+              </>
+            )}
           </div>
           {/* right */}
-          <div className="md:4/5 mt-8 h-full w-3/4 rounded border-2 border-dotted border-gray-700 lg:mt-0 lg:w-2/5">
+          <div className="h-2/5 w-full rounded border border-gray-700 lg:h-full">
             <textarea
-              className="h-full w-full bg-transparent py-2 px-2 outline-none"
               name="description"
-              placeholder="Add Description"
-              value={formValues.description}
               onChange={handleChange}
+              value={formValues.description}
+              className="h-full w-full py-2 px-2"
+              placeholder="Project Description"
             ></textarea>
           </div>
         </div>
@@ -208,7 +238,7 @@ const createProject = (props: Props) => {
         <div className="mt-20 flex flex-col items-center lg:flex-row lg:items-start">
           {/* left */}
           <div className="flex w-full flex-col items-center space-y-3 lg:items-start">
-            <h2 className="text-center text-xl text-gray-200 lg:text-left">
+            <h2 className="text-center font-clash text-xl text-gray-200 lg:text-left">
               Team
             </h2>
             <p className="w-4/5 text-center text-sm text-gray-400 lg:w-3/5 lg:text-left">
