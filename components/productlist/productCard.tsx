@@ -6,13 +6,13 @@ export const ProductCard = () => {
 
     return (
         <>
-            <div className="mycard text-white border-[1px] flex-grow-0 flex-shrink-0 min-h-[600px] border-white w-full rounded-sm m-auto max-w-[400px] 2xl:mx-[25px] mb-[35px]">
-                <div className="h-[200px] w-full bg-[#626262] ">
+            <div className="rounded-xl font-inter mycard text-white border-[1px] flex-grow-0 flex-shrink-0 min-h-[600px] border-white w-full  m-auto max-w-[400px] 2xl:mx-[25px] mb-[35px]">
+                <div className="rounded-xl h-[200px] w-full bg-[#626262] ">
                     {/* here img will go */}
                 </div>
                 <div className=" flex grow-0 shrink-0  flex-col  p-4">
-                    <h2 className="mb-3 text-[1.2rem]">project Title </h2>
-                    <p className="text-[.9rem] text-justify">{pera}</p>
+                    <h2 className=" opacity-75 text-bolder mb-3 text-[1.3rem]">project Title </h2>
+                    <p className="opacity-80 text-[.9rem] text-justify">{pera}</p>
                     <button className=" rounded-lg block text-center bg-[#5451FF] py-3 px-2 w-[95%] m-auto my-[15px]" >view details</button>
                 </div>
 
