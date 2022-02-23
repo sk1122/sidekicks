@@ -27,3 +27,10 @@ textarea {
   resize: none;
   outline: none;
 }
+
+@media  screen and (min-width: 1536px) {
+  .mycard {
+  max-width: calc(33% - 50px);
+
+}
+}
