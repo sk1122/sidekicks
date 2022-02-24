@@ -6,12 +6,12 @@ import { useState, useEffect } from "react";
 import { useAccountContext } from "./_context";
 const ProductList = () => {
 
-    const { myProjects } = useAccountContext()
+    const { getAllProjects } = useAccountContext()
     const [data, setData] = useState([])
     useEffect(() => {
 
         (async () => {
-            setData(await myProjects())
+            setData(await getAllProjects())
         })()
     }, [])
 
@@ -41,10 +41,8 @@ const ProductList = () => {
                         <ProductCard />
                         <ProductCard />
                         <ProductCard />
-                        <ProductCard />``
                         <ProductCard />
-
-
+                        <ProductCard />
                     </div>
 
                 </div>
