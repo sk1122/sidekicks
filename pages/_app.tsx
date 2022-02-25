@@ -386,6 +386,40 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }
 
+  const getImages = async (projectId: string) => {
+    let image_urls: string[] = []
+
+    const { data, error } = await supabase
+      .storage
+      .from('projects')
+      .list(projectId, {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: 'name', order: 'asc' },
+      })
+
+      if (!data || error || data.length == 0) {
+        return false
+      }
+
+      const map = data.map(v => {
+        const { publicURL, error } = supabase
+          .storage
+          .from('projects')
+          .getPublicUrl(`${projectId}/${v.name}`)
+        
+        if (!publicURL || error) {
+          return false
+        }
+
+        image_urls.push(publicURL as string)
+      })
+
+      await Promise.all(map)
+
+      return image_urls
+  }
+
   const uploadFile = async (file: File, projectId: number) => {
     const { data, error } = await supabase.storage
       .from('projects')
@@ -401,24 +435,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     console.log(data)
   }
 
-  /// @dev: Example
-  // useEffect(() => {
-  //   (async () => {
-  //     let project: Project = {
-  //       title: 'Yo',
-  //       description: 'Yo',
-  //       tagline: 'string',
-  //       thumbnail: 'string',
-  //       demo_video: 'string',
-  //       makers: [{'object': 'ds'}],
-  //       wallet_id: 'String',
-  //       category: 'string',
-  //       images: ['string[]']
-  //     }
-  //     console.log(await startProject(project))
-  //   })()
-  // }, [])
-
   let sharedState = {
     account,
     setAccount,
@@ -429,6 +445,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     contributeProject,
     startProject,
     uploadFile,
+    getImages
   }
 
   useEffect(() => {

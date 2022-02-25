@@ -11,6 +11,7 @@ export interface Context {
   contributeProject: Function
   startProject: Function
   uploadFile: Function
+  getImages: Function
 }
 
 export const AppContext = createContext<Context>({} as Context);
