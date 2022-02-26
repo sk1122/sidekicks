@@ -1,7 +1,14 @@
-export const ImageGallary = () => {
+interface Props {
+  images: string[]
+}
+
+export const ImageGallary = (props: Props) => {
   return (
     <>
       <div className=" relative h-[500px] w-[60%] flex-shrink-0 border-2 bg-white">
+        {props.images && props.images[0] && 
+          <img src={props.images[0]} alt="Imaeg" className="w-full h-full" />
+        }
         <button className="absolute top-0 bottom-0">
           <img src="/icon/back.png" />
         </button>

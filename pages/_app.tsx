@@ -255,6 +255,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           return
         }
         if(data) {
+          data[0].images = await getImages(data[0].id)
+          console.log(data[0].images)
           projectsData.push([data[0], projects[i]])
         }
       })
@@ -276,17 +278,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       if(!data || error || data.length == 0) {
         return false
       }
-      return data[0]
+      return [project, data[0]]
     } catch(e) {
       console.log(e)
     }
   }
 
-  useEffect(() => {
-    (async() => {
-      console.log(await getAllProjects())
-    })()
-  }, [])
+  // useEffect(() => {
+  //   (async() => {
+  //     console.log(await getAllProjects())
+  //   })()
+  // }, [])
 
   /// @dev: Get ALL Contributions for logged user for a given project
   const myContributions = async (projectId: number) => {

@@ -1,19 +1,22 @@
 import Circle from '../Circle'
 
-export const ProductInfo = () => {
+interface Props {
+  title: string
+  description: string
+  images: string[]
+}
+
+export const ProductInfo = ({ title, description, images }: Props) => {
   return (
     <>
-      <div className=" mb-[50px] mt-[50px] flex items-center justify-start  text-white">
-        <div className="">
-          <div className="h-[200px] w-[200px] rounded-[50%] bg-white"></div>
+      <div className=" mb-[50px] flex items-center justify-start  text-white">
+        <div className="mt-10">
+          <img src={images[0]} className="h-[200px] w-[200px] rounded-[50%] bg-white" />
         </div>
-        <div className="w ml-[20px] w-[600px] text-justify">
-          <h1 className="text-[2rem]">project title</h1>
+        <div className="w ml-[20px] mt-10 w-[600px] text-justify">
+          <h1 className="text-[2rem]">{title}</h1>
           <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni,
-            reprehenderit illo nostrum perspiciatis, doloremque, minus vero
-            accusamus exercitationem voluptate adipisci tempora nam! Voluptates
-            et officiis fugit iure perferendis possimus totam.
+            {description}
           </p>
         </div>
       </div>
