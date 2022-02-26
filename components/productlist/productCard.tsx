@@ -17,8 +17,9 @@ export const ProductCard = ({ title, description, image, }) => {
                 <div className="  flex justify-between min-h-[400px] grow-1 shrink-0  flex-col  p-4">
 
                     <div>
-                        <p className="opacity-80 text-[.9rem] text-justify">{pera}</p>
                         <h2 className=" opacity-75 text-bolder mb-3 text-[1.3rem]">{title} </h2>
+
+                        <p className="opacity-80 text-[.9rem] text-justify">{pera}</p>
 
                     </div>
                     <button className=" rounded-lg block text-center bg-[#5451FF] py-3 px-2 w-[95%] m-auto my-[15px]" >view details</button>
