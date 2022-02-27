@@ -6,7 +6,6 @@ import HowWorks from '../components/home/howworks'
 import { useAccount } from 'wagmi'
 import { useEffect } from 'react'
 import { useAccountContext } from './_context'
-import ProductPage from './product'
 
 export default function Index() {
   const { setAccount } = useAccountContext()

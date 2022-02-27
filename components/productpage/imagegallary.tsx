@@ -1,18 +1,55 @@
+import { useState } from "react"
+
 interface Props {
   images: string[]
 }
 
 export const ImageGallary = (props: Props) => {
+  const productImages = [
+    ...props.images, '/vercel.svg'
+  ]
+
+  const [currentImg, setCureentImg] = useState(0)
+
+  const handleNext = () => {
+    setCureentImg((prev) => {
+      if (prev == productImages.length - 1) {
+        return 0
+      } else {
+        return prev + 1;
+      }
+    })
+  }
+  const handleBack = () => {
+    setCureentImg((prev) => {
+      prev = productImages.length - 1;
+      if (prev <= 0) {
+        return 0;
+      } else {
+        return prev - 1;
+      }
+    })
+  }
+
   return (
     <>
-      <div className=" relative h-[500px] w-[60%] flex-shrink-0 border-2 bg-white">
-        {props.images && props.images[0] && 
-          <img src={props.images[0]} alt="Imaeg" className="w-full h-full" />
-        }
-        <button className="absolute top-0 bottom-0">
+      <div className=" relative h-[500px] w-[60%]  flex-shrink-0 border-2 bg-white">
+        <div className="overflow-hidden flex w-full h-full">
+
+          {productImages.length > 0 ?
+
+            <img src={productImages[currentImg]} alt="images" className="w-full h-full" />
+            : <div className="flex justify-center items-center h-full w-full text-black">
+              <p className="text-[2rem]">No images</p>
+            </div>
+          }
+
+        </div>
+
+        <button onClick={handleBack} className="absolute top-0 bottom-0">
           <img src="/icon/back.png" />
         </button>
-        <button className="absolute top-0 bottom-0 right-0">
+        <button onClick={handleNext} className="absolute top-0 bottom-0 right-0">
           <img className="scale-x-[-1]" src="/icon/back.png" alt="" />
         </button>
       </div>
