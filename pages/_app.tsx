@@ -18,6 +18,7 @@ import { ExternalProvider } from '@ethersproject/providers'
 import { AppContext } from './_context'
 import { supabase } from '../client'
 import { Project } from '../types/Project.type'
+import {Toaster} from 'react-hot-toast'
 
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -292,9 +293,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   /// @dev: Get ALL Contributions for logged user for a given project
   const myContributions = async (projectId: number) => {
+    console.log(account)
     try {
       connectContract()
-      let contributions = await contract.myContributions(0, account)
+      let contributions = await contract.myContributions(projectId, account)
+      console.log(contributions, "Contrib")
       return contributions
     } catch (e) {
       console.log(e)
@@ -336,7 +339,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       })
       await project.wait()
     } catch (e) {
-      console.log(e)
+      throw e
     }
   }
 
@@ -447,7 +450,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     contributeProject,
     startProject,
     uploadFile,
-    getImages
+    getImages,
+    connectContract,
+    contract
   }
 
   useEffect(() => {
@@ -458,6 +463,30 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AppContext.Provider value={sharedState}>
       <Provider autoConnect connectors={connectors}>
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          // Define default options
+          className: '',
+          duration: 5000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+        }}
+      />
         <Navbar />
         <Component {...pageProps} />
         <Footer />

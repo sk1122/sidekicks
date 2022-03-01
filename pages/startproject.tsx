@@ -1,11 +1,19 @@
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
+import { useAccount } from 'wagmi'
 import { Project, Maker } from '../types/Project.type'
 import { useAccountContext } from './_context'
 
 type Props = {}
 
 const createProject = (props: Props) => {
-  const { startProject } = useAccountContext()
+  const { startProject, setAccount } = useAccountContext()
+
+  const [{ data: accountData, error, loading }, disconnect] = useAccount()
+
+    useEffect(() => {
+        setAccount(accountData?.address)
+    }, [accountData])
 
   let makers: Maker[] = [
     { name: '', twitter: '' },
@@ -102,6 +110,9 @@ const createProject = (props: Props) => {
 
   return (
     <div className="flex h-fit items-center justify-center bg-black font-inter text-white">
+      <Head>
+        <title>Start Project</title>
+      </Head>
       <form className="mx-16 my-20 w-full" onSubmit={handleFormSubmit}>
         <div className="flex  flex-col items-center justify-center lg:flex-row lg:justify-start lg:space-x-20">
           {/* project icon input */}

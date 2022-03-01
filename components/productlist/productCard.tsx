@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import Link from 'next/link'
 
@@ -22,9 +23,12 @@ export const ProductCard = ({ id, title, description, image, tagline }: Props) =
 
     return (
         <>
+            <Head>
+                <title>{title} - sidekicks</title>
+            </Head>
             <div className="rounded-xl font-inter mycard text-white border-[1px]  min-h-[600px] h-full border-white w-full  m-auto max-w-[400px] 2xl:mx-[25px] mb-[35px]">
                 <div className="rounded-xl">
-                    <img src={image} alt="Image not available" className="text-white w-full h-96" />
+                    <img src={image} alt="Image not available" className="text-white w-full h-96 rounded-xl" />
                 </div>
                 <div className="flex justify-between min-h-[400px] grow-1 shrink-0  flex-col  p-4">
                     <div>

@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import Circle from '../Circle'
 
 export default function Home() {
@@ -24,7 +25,9 @@ export default function Home() {
       </div>
 
       <div className='flex-end'>
-        <h1 className='text-white font-inter font-semibold text-xl lowercase cursor-pointer'>{`explore kicks -->`}</h1>
+        <Link href="/products">
+          <h1 className='text-white font-inter font-semibold text-xl lowercase cursor-pointer'>{`explore kicks -->`}</h1>
+        </Link>
       </div>
     </div>
   )

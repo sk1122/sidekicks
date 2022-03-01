@@ -1,5 +1,6 @@
 import { useEffect, FC, createContext, useContext, useState } from "react";
 import { ethers } from "ethers";
+import { useAccount } from "wagmi";
 
 export interface Context {
   account: string
@@ -12,6 +13,8 @@ export interface Context {
   startProject: Function
   uploadFile: Function
   getImages: Function
+  connectContract: Function
+  contract: any
 }
 
 export const AppContext = createContext<Context>({} as Context);
@@ -21,5 +24,6 @@ export function useAccountContext() {
 }
 
 export default function () {
+  const [{ data, error, loading }, disconnect] = useAccount()
   return <div></div>;
 }

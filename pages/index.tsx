@@ -17,6 +17,9 @@ export default function Index() {
 
   return (
     <div className="snap-scroll flex min-h-screen flex-col items-center justify-start bg-black py-2 font-inter">
+      <Head>
+        <title>sidekicks</title>
+      </Head>
       <Home></Home>
       <TopKick></TopKick>
       <ThisKick></ThisKick>
