@@ -6,7 +6,7 @@ interface Props {
 
 export const ImageGallary = (props: Props) => {
   const productImages = [
-    ...props.images, '/vercel.svg'
+    ...props.images
   ]
 
   const [currentImg, setCureentImg] = useState(0)
