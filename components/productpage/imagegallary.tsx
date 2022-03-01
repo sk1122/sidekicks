@@ -33,7 +33,7 @@ export const ImageGallary = (props: Props) => {
 
   return (
     <>
-      <div className=" relative h-[500px] w-[60%]  flex-shrink-0 border-2 bg-white">
+      <div className=" relative h-[500px] w-[60%]  flex-shrink-0">
         <div className="overflow-hidden flex w-full h-full">
 
           {productImages.length > 0 ?
