@@ -1,6 +1,11 @@
 import { useState } from "react"
 
-export const Team = ({ creators }) => {
+interface Props {
+  creators: any[]
+
+}
+
+export const Team = ({ creators }: Props) => {
   const [hide, setHide] = useState(false)
 
   const handleHide = () => {
