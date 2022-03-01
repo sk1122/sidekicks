@@ -6,7 +6,6 @@ import { useAccountContext } from "./_context";
 const ProductList = () => {
     const { getAllProjects, getImages } = useAccountContext()
     const [data, setData] = useState([])
-    const [image, setImage] = useState([])
     useEffect(() => {
         (async () => {
             setData(await getAllProjects())

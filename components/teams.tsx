@@ -1,41 +1,41 @@
 import { useState } from "react"
 
-export const Team = () => {
+interface Props {
+  creators: any[]
+
+}
+
+export const Team = ({ creators }: Props) => {
   const [hide, setHide] = useState(false)
 
   const handleHide = () => {
     setHide(!hide)
   }
+
+  console.log(creators)
   return (
     <>
-      <div className="w-full px-[15px]">
+      <div className="w-full  px-[15px]">
         <div className=" mt-[30px] flex w-[100%] justify-between  text-white">
           <h2>Team</h2>
           <button onClick={handleHide} className="bg-transparent text-[2rem]">+</button>
         </div>
-        {hide ? <div></div> : <div className="mb-20px m-auto  w-[90%] border border-white ">
-          <div className=" mt-[12px] ml-[20px] mb-[20px] flex">
-            <div className="h-[50px] w-[50px] rounded-[50%] bg-white"></div>
-            <div className="ml-[12px] text-white">
-              <p>hello this it </p>
-              <p>lorem</p>
-            </div>
+        {hide ? <div></div> :
+          <div className="mb-20px m-auto  w-[90%] min-h-[100px] border text-white border-white ">
+            {creators ?
+              creators.map(creator => {
+                return creator.twitter ? <div className="flex items-center text-[1.3rem] underline  mt-[12px] ml-[20px] mb-[20px]  ">
+
+                  <img className="w-[30px] mr-3 rounded-full" src="/icon/twitter.gif" alt="" />
+                  <a href={"https://twitter.com/" + creator.twitter}>{creator.twitter}</a>
+                </div> : ""
+
+              })
+              : <div>No team mates</div>
+
+
+            }
           </div>
-          <div className=" mt-[12px] ml-[20px] mb-[20px] flex">
-            <div className="h-[50px] w-[50px] rounded-[50%] bg-white"></div>
-            <div className="ml-[12px] text-white">
-              <p>hello this it </p>
-              <p>lorem</p>
-            </div>
-          </div>
-          <div className=" mt-[12px] ml-[20px] mb-[20px] flex">
-            <div className="h-[50px] w-[50px] rounded-[50%] bg-white"></div>
-            <div className="ml-[12px] text-white">
-              <p>hello this it </p>
-              <p>lorem</p>
-            </div>
-          </div>
-        </div>
 
 
         }

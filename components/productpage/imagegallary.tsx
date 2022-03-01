@@ -6,7 +6,7 @@ interface Props {
 
 export const ImageGallary = (props: Props) => {
   const productImages = [
-    ...props.images, '/vercel.svg'
+    ...props.images
   ]
 
   const [currentImg, setCureentImg] = useState(0)
@@ -33,7 +33,7 @@ export const ImageGallary = (props: Props) => {
 
   return (
     <>
-      <div className=" relative h-[500px] w-[60%]  flex-shrink-0 border-2 bg-white">
+      <div className=" relative h-[500px] w-[60%]  flex-shrink-0">
         <div className="overflow-hidden flex w-full h-full">
 
           {productImages.length > 0 ?
@@ -46,12 +46,20 @@ export const ImageGallary = (props: Props) => {
 
         </div>
 
-        <button onClick={handleBack} className="absolute top-0 bottom-0">
-          <img src="/icon/back.png" />
-        </button>
-        <button onClick={handleNext} className="absolute top-0 bottom-0 right-0">
-          <img className="scale-x-[-1]" src="/icon/back.png" alt="" />
-        </button>
+        <div className="absolute top-0 left-0 bottom-0  w-[50px] flex items-center">
+          <button onClick={handleBack} className="w-[50px] text-center  bg-gray-400 h-[50px] rounded-full  text-white text-[2rem] ">
+            {/* <img src="/icon/back.png" /> */}
+            {"<"}
+          </button>
+
+        </div>
+        <div className="absolute top-0 right-0 bottom-0  w-[50px] flex items-center">
+          <button onClick={handleNext} className="w-[50px] bg-gray-400 h-[50px] rounded-full  text-white text-[2rem] ">
+            {/* <img className="scale-x-[-1]" src="/icon/back.png" alt="" /> */}
+            {">"}
+          </button>
+
+        </div>
       </div>
     </>
   )
